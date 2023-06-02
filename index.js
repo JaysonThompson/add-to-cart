@@ -19,14 +19,13 @@ const inputFieldEl = document.querySelector('#input-field')
 const addBtnEl = document.querySelector('#add-button')
 const shoppingListEl = document.querySelector('#shopping-list')
 
-addBtnEl.addEventListener('click', function () {
+addBtnEl.addEventListener('click', () => {
   let inputValue = inputFieldEl.value
   push(shoppingListInDB, inputValue)
   clearInputFieldEl()
 })
 
-onValue(shoppingListInDB, function (snapshot) {
-  // Challenge: Change the onValue code so that it uses snapshot.exists() to show items when there are items in the database and if there are not displays the text 'No items here... yet'.
+onValue(shoppingListInDB, snapshot => {
   if (snapshot.exists()) {
     clearShoppingListEl()
     let arrayItem = Object.entries(snapshot.val())
@@ -41,20 +40,17 @@ onValue(shoppingListInDB, function (snapshot) {
   }
 })
 
-function clearInputFieldEl() {
-  inputFieldEl.value = ''
-}
+const clearInputFieldEl = () => inputFieldEl.value = ''
 
-function clearShoppingListEl() {
-  shoppingListEl.innerHTML = ''
-}
+const clearShoppingListEl = () => shoppingListEl.innerHTML = ''
 
-function appendItemToShoppingListEl(item) {
+
+const appendItemToShoppingListEl = item => {
   let itemID = item[0]
   let itemValue = item[1]
   let newEl = document.createElement('li')
 
-  newEl.addEventListener('click', function () {
+  newEl.addEventListener('click', () => {
     let exactLocationOfItemInDB = ref(database, `shoppingList/${itemID}`)
     remove(exactLocationOfItemInDB)
   })
